@@ -135,3 +135,14 @@ $ docker exec -it 8223 bash  # 进入容器中 8223是容器ID：822374ab6f7d简
 ![index](https://github.com/CTF-MissFeng/bayonet/blob/master/doc/4.png)
 
 ![index](https://github.com/CTF-MissFeng/bayonet/blob/master/doc/5.png)
+
+## Docker 运行
+> 修改对应的.env文件
+> 将相关的KEY加入
+> 修改docker-compose.yml文件中默认的用户密码等
+```
+docker-compose build 
+docker-compose pull
+docker-compose up -d
+
+```
