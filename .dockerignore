@@ -1,0 +1,8 @@
+doc/*
+README.md
+build_docker.sh
+Dockerfile
+.env
+docker-compose.yml
+logs
+pg_data

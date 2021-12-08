@@ -3,17 +3,24 @@ import os
 import pathlib
 import urllib3
 
+
 class BayonetConfig(object):
     '''Flask数据配置'''
     SECRET_KEY = str(uuid.uuid4())
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:qazxsw@123@127.0.0.1/bayonet'  # 数据库连接字符串
+    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}'.format(os.environ.get("PG_USER", "postgres"),
+                                                                os.environ.get("PG_PASSWD", "root@123"),
+                                                                os.environ.get("PG_HOST", "127.0.0.1"),
+                                                                int(os.environ.get("PG_PORT", 5432)),
+                                                                os.environ.get("PG_DB", "bayonet")
+                                                                )  # 数据库连接字符串
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TITLE = 'Bayonet 资产管理系统'
     PORT = 80  # web端口
 
+
 class PortScan:
     cdn_scan = True  # 不扫描识别为cdn的IP
-    shodan_api = 'xxxxxxxx'  # shodan查询api
+    shodan_api = os.environ.get("SHODAN_API", "")  # shodan查询api
     async_scan = False  # 是否开启常规端口服务探测
     async_scan_timeout = 30  # 异步端口扫描超时时间
     async_scan_threads = 500  # 异步协程数
@@ -21,65 +28,66 @@ class PortScan:
     nmap_search_path = ('nmap', '/usr/bin/nmap', '/usr/local/bin/nmap', '/sw/bin/nmap', '/opt/local/bin/nmap')
     port_num = 500  # 超过多少个端口识别为CDN丢弃
 
+
 class Oneforall:
     # 模块API配置
     # Censys可以免费注册获取API：https://censys.io/api
-    censys_api_id = ''
-    censys_api_secret = ''
+    censys_api_id = os.environ.get("CENSYS_API_ID", "")
+    censys_api_secret = os.environ.get("CENSYS_API_SECRET", "")
     # Binaryedge可以免费注册获取API：https://app.binaryedge.io/account/api
     # 免费的API有效期只有1个月，到期之后可以再次生成，每月可以查询250次。
-    binaryedge_api = ''
+    binaryedge_api = os.environ.get("BINARYEDGE_API", "")
     # Chinaz可以免费注册获取API：http://api.chinaz.com/ApiDetails/Alexa
-    chinaz_api = ''
+    chinaz_api = os.environ.get("CHINAZ_API", "")
     # Bing可以免费注册获取API：https://azure.microsoft.com/zh-cn/services/
     # cognitive-services/bing-web-search-api/#web-json
-    bing_api_id = ''
-    bing_api_key = ''
+    bing_api_id = os.environ.get("BING_API_ID", "")
+    bing_api_key = os.environ.get("BING_API_KEY", "")
     # SecurityTrails可以免费注册获取API：https://securitytrails.com/corp/api
-    securitytrails_api = ''
+    securitytrails_api = os.environ.get("SECURITYTRAILS_API", "")
     # https://fofa.so/api
-    fofa_api_email = ''  # fofa用户邮箱
-    fofa_api_key = ''  # fofa用户key
+    fofa_api_email = ''  # fofa用户os.environ.get("FOFA_API_EMAIL","")
+    fofa_api_key = ''  # fofa用户kos.environ.get("FOFA_API_KEY","")
     # Google可以免费注册获取API:
     # https://developers.google.com/custom-search/v1/overview
     # 免费的API只能查询前100条结果
-    google_api_key = ''  # Google API搜索key
-    google_api_cx = ''  # Google API搜索cx
+    google_api_key = ''  # Google API搜索kos.environ.get("GOOGLE_API_KEY","")
+    google_api_cx = ''  # Google API搜索os.environ.get("GOOGLE_API_CX","")
     # https://api.passivetotal.org/api/docs/
-    riskiq_api_username = ''
-    riskiq_api_key = ''
+    riskiq_api_username = os.environ.get("RISKIQ_API_USERNAME", "")
+    riskiq_api_key = os.environ.get("RISKIQ_API_KEY", "")
     # Shodan可以免费注册获取API: https://account.shodan.io/register
     # 免费的API限速1秒查询1次
-    shodan_api_key = ''
+    shodan_api_key = os.environ.get("SHODAN_API_KEY", "")
     # ThreatBook API 查询子域名需要收费 https://x.threatbook.cn/nodev4/vb4/myAPI
-    threatbook_api_key = ''
+    threatbook_api_key = os.environ.get("THREATBOOK_API_KEY", "")
     # VirusTotal可以免费注册获取API: https://developers.virustotal.com/reference
-    virustotal_api_key = ''
+    virustotal_api_key = os.environ.get("VIRUSTOTAL_API_KEY", "")
     # https://www.zoomeye.org/doc?channel=api
-    zoomeye_api_usermail = ''
-    zoomeye_api_password = ''
+    zoomeye_api_usermail = os.environ.get("ZOOMEYE_API_USERMAIL", "")
+    zoomeye_api_password = os.environ.get("ZOOMEYE_API_PASSWORD", "")
     # Spyse可以免费注册获取API: https://spyse.com/
-    spyse_api_token = ''
+    spyse_api_token = os.environ.get("SPYSE_API_TOKEN", "")
     # https://www.circl.lu/services/passive-dns/
-    circl_api_username = ''
-    circl_api_password = ''
+    circl_api_username = os.environ.get("CIRCL_API_USERNAME", "")
+    circl_api_password = os.environ.get("CIRCL_API_PASSWORD", "")
     # https://www.dnsdb.info/
-    dnsdb_api_key = ''
+    dnsdb_api_key = os.environ.get("DNSDB_API_KEY", "")
     # ipv4info可以免费注册获取API: http://ipv4info.com/tools/api/
     # 免费的API有效期只有2天，到期之后可以再次生成，每天可以查询50次。
-    ipv4info_api_key = ''
+    ipv4info_api_key = os.environ.get("IPV4INFO_API_KEY", "")
     # https://github.com/360netlab/flint
     # passivedns_api_addr默认空使用http://api.passivedns.cn
     # passivedns_api_token可为空
-    passivedns_api_addr = ''
-    passivedns_api_token = ''
+    passivedns_api_addr = os.environ.get("PASSIVEDNS_API_ADDR", "")
+    passivedns_api_token = os.environ.get("PASSIVEDNS_API_TOKEN", "")
     # Github Token可以访问https://github.com/settings/tokens生成,user为Github用户名
     # 用于子域接管
-    github_api_user = ''
-    github_api_token = ''
+    github_api_user = os.environ.get("GITHUB_API_USER", "")
+    github_api_token = os.environ.get("GITHUB_API_TOKEN", "")
     # Github子域收集模块使用
-    github_email = ''
-    github_password = ''
+    github_email = os.environ.get("GITHUB_EMAIL", "")
+    github_password = os.environ.get("GITHUB_PASSWORD", "")
     # 路径设置
     oneforall_relpath = pathlib.Path(__file__).parent.joinpath('tools', 'oneforall')  # oneforall代码相对路径
     oneforall_abspath = oneforall_relpath.resolve()  # oneforall代码绝对路径
@@ -215,6 +223,7 @@ class Oneforall:
                          'help', 'live', 'mall', 'blogs', 'files', 'forum',
                          'store', 'mobile'}
 
+
 class UrlScan:
     timeout = 15  # HTTP访问超时
     success_status_code = [200]  # 该状态码表示为有web应用程序
@@ -228,10 +237,11 @@ class UrlScan:
                          'sys', 'test', 'api', 'about', 'html', 'site', 'list', 'service', 'help', 'sso', 'mobile',
                          'info', 'Home', 'blog', 'file', 'auth', 'pages']
 
+
 class crawlergo:
     # chromium浏览器可执行文件绝对路径
-    chromium_path = '/usr/lib/chromium-browser/chromium-browser'
+    chromium_path = '/usr/bin/chromium-browser'
     max_tab_count = '5'  # 爬虫同时开启最大标签页
-    filter_mode = 'smart'   # 过滤模式 simple-简单、smart-智能、strict-严格
+    filter_mode = 'smart'  # 过滤模式 simple-简单、smart-智能、strict-严格
     max_crawled_count = '200'  # 爬虫最大任务数量
     cache_path = '/Users/[username]/Library/Caches/Google/Chrome/Default/Cache/'  # 浏览器缓存地址，会自动删除提高效率

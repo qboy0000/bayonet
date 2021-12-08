@@ -1,0 +1,30 @@
+version: '2'
+services:
+  bayonet:
+    build: .
+    ports:
+      - 5000:80
+    env_file:
+      - .env
+    environment:
+      PG_USER: postgres
+      PG_PASSWD: postgres@123
+      PG_HOST: pgsql
+      PG_PORT: 5432
+      PG_DB: bayonet
+      WEB_USER: root
+      WEB_PASSWD: root@123
+    depends_on:
+      - pgsql
+    links:
+      - pgsql
+    volumes:
+      - ./logs:/bayonet/logs
+  pgsql:
+    container_name: pqsql
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres@123
+      POSTGRES_USER: postgres
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
